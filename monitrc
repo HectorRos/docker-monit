@@ -25,3 +25,5 @@ check network public with interface eth0
 
 check filesystem main PATH /
    if space usage > 90% for 5 times within 15 cycles then alert
+
+CUSTOM_CONFIG

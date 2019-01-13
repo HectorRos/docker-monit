@@ -1,0 +1,27 @@
+###############################################################################
+## Basic monit file
+###############################################################################
+
+set daemon 30
+set logfile syslog
+set pidfile /var/run/monit.pid
+
+ set httpd port 2812 and
+    allow localhost
+
+check system $HOST
+   if loadavg (1min) > 16 for 5 cycles then alert
+   if loadavg (5min) >  20 for 5 cycles then alert
+   if cpu usage > 95% for 5 cycles then alert
+   if memory usage > 95% for 5 cycles then alert
+   if swap usage > 98% for 5 cycles then alert
+
+check network public with interface eth0
+   if failed link for 5 cycles then alert
+   if changed link for 5 cycles then alert
+   if saturation > 90% for 5 cycles then alert
+   if download > 100 MB/s for 5 cycles then alert
+   if total uploaded > 500 GB in last hour then alert
+
+check filesystem main PATH /
+   if space usage > 90% for 5 times within 15 cycles then alert
